@@ -2,11 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="legacyrpnepal.png"/>
     <title>Gangs Progression Info</title>
+    <link rel="icon" href="legacyrpnepal.png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Importing Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
     <style>
-        /* Base Styles */
+        :root {
+            --color-ballas: #8E2DE2;
+            --color-yakuza: #ffffff;
+            --color-tokyo: #008080;
+            --color-sol: #ff0000;
+            --color-crips: #0004ff;
+
+            --gradient-ballas: linear-gradient(90deg, #8E2DE2, #4A00E0);
+            --gradient-yakuza: linear-gradient(90deg, #8b8b8b, #ffffff);
+            --gradient-tokyo: linear-gradient(90deg, #01ffff, #008080);
+            --gradient-sol: linear-gradient(90deg, #f08d8d, #ff0000);
+            --gradient-crips: linear-gradient(90deg, #614fff, #2f00ff);
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background-size: cover;
@@ -15,7 +30,7 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
             transition: background-image 1s ease-in-out;
@@ -23,14 +38,13 @@
 
         h1 {
             text-align: center;
-            margin-bottom: 20px;
+            margin: 20px 0;
             font-size: 3rem;
             color: #fff;
             font-family: 'Lobster', cursive;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
         }
 
-        /* Player Progress Bars */
         .player {
             margin-bottom: 20px;
             width: 100%;
@@ -39,8 +53,8 @@
         .player-label {
             font-size: 1.2rem;
             margin-bottom: 10px;
-            display: flex; /* Flexbox for inline logo and text */
-            align-items: center; /* Align logo and text vertically */
+            display: flex;
+            align-items: center;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
             transition: color 0.3s ease;
         }
@@ -52,25 +66,24 @@
             border-radius: 50%;
         }
 
-        /* Player-specific label colors */
         .player-label.ballas {
-            color: #8E2DE2; /* Purple */
+            color: var(--color-ballas);
         }
 
         .player-label.yakuza {
-            color: #ffffff; /* White */
+            color: var(--color-yakuza);
         }
 
         .player-label.tokyo {
-            color: #008080; /* Teal */
+            color: var(--color-tokyo);
         }
 
         .player-label.sol {
-            color: #ff0000; /* Red */
+            color: var(--color-sol);
         }
 
         .player-label.crips {
-            color: #0004ff; /* Blue */
+            color: var(--color-crips);
         }
 
         .progress-container {
@@ -90,67 +103,207 @@
             line-height: 40px;
             color: #ffffff;
             font-weight: bold;
-            transition: width 0.5s ease-in-out, background 0.5s ease;
+            transition: width 1s ease-in-out, background 0.5s ease;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
         }
 
-        /* Player-specific progress bar colors */
         .progress-bar.ballas {
-            background: linear-gradient(90deg, #8E2DE2, #4A00E0); /* Purple gradient */
+            background: var(--gradient-ballas);
         }
 
         .progress-bar.yakuza {
-            background: linear-gradient(90deg, #8b8b8b, #ffffff); /* white gradient */
+            background: var(--gradient-yakuza);
         }
 
         .progress-bar.tokyo {
-            background: linear-gradient(90deg, #01ffff, #008080); /* teal gradient */
+            background: var(--gradient-tokyo);
         }
 
         .progress-bar.sol {
-            background: linear-gradient(90deg, #f08d8d, #ff0000); /* red gradient */
+            background: var(--gradient-sol);
         }
 
         .progress-bar.crips {
-            background: linear-gradient(90deg, #614fff, #2f00ff); /* blue gradient */
+            background: var(--gradient-crips);
         }
 
-        /* Responsive Layout */
+        .progress-bar::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0,0,0,0.8);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .progress-bar:hover::after {
+            opacity: 1;
+        }
+
         @media (max-width: 768px) {
             .progress-container {
                 width: 90%;
             }
         }
 
+        .points-table {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 320px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            transform: translateY(100%);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .points-table.visible {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .points-table thead th {
+            background-color: #444;
+            color: #ffffff;
+            padding: 12px;
+            font-weight: 700;
+            text-align: left;
+            border-bottom: 2px solid #555;
+        }
+
+        .points-table tbody td {
+            background-color: #333;
+            color: #ffffff;
+            padding: 12px;
+            border-bottom: 1px solid #555;
+        }
+
+        .points-table tbody tr:nth-child(even) {
+            background-color: #2a2a2a;
+        }
+
+        .points-table tbody tr:hover {
+            background-color: #444;
+        }
+
+        .bottom-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0,123,255,0.8);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .bottom-icon img {
+            width: 30px;
+            height: 30px;
+            filter: invert(1);
+        }
+
+        .bottom-icon:hover {
+            background-color: rgba(255,255,255,0.8);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .points-table {
+                width: 90%;
+                right: 5%;
+                bottom: 90px;
+            }
+
+            .bottom-icon {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
     </style>
 </head>
 <body>
 
 <h1>Gangs Progression Info</h1>
 
+<!-- Player Progress Bars -->
 <div id="player-bars"></div>
 
+<!-- Points and Reasons Table -->
+<table class="points-table" id="points-table">
+    <thead>
+        <tr>
+            <th>Reason</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Completed Mission</td>
+            <td>50</td>
+        </tr>
+        <tr>
+            <td>Failed Mission</td>
+            <td>-20</td>
+        </tr>
+        <tr>
+            <td>Captured Territory</td>
+            <td>100</td>
+        </tr>
+        <tr>
+            <td>Lost Territory</td>
+            <td>-50</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Bottom Icon -->
+<div class="bottom-icon" onclick="toggleTable()">
+    <img src="https://i.postimg.cc/Qxmsnr5p/menu.png" alt="Toggle Icon">
+</div>
+
 <script>
-    // Constants for leveling system
     const levelBasePoints = 100;
     const levelIncrease = 50;
     const maxLevel = 20;
 
-    // Array to store player data with their respective logos
     const players = [
-        { name: "Ballas (ESB)", points: 40, level: 1, colorClass: 'ballas', logo: 'https://i.postimg.cc/8zk3v20c/ballas.png' },
-        { name: "Yakuza", points: 30, level: 1, colorClass: 'yakuza', logo: 'yakuza-logo.png' },
-        { name: "Tokyo (TKY)", points: 15, level: 1, colorClass: 'tokyo', logo: 'tokyo-logo.png' },
-        { name: "Son Of Legacy (SOL)", points: 25, level: 1, colorClass: 'sol', logo: 'https://i.postimg.cc/tJhfdpbZ/sol.png' },
-        { name: "Crips", points: 10, level: 1, colorClass: 'crips', logo: 'https://i.postimg.cc/8cVXz9v1/crips.png' },
+        { name: "Ballas (ESB)", points: 40, level: 1, colorClass: 'ballas', logo: 'https://i.postimg.cc/8zk3v20c/Ballas.jpg' },
+        { name: "Yakuza", points: 30, level: 1, colorClass: 'yakuza', logo: 'https://i.postimg.cc/FFXRG7fv/Yakuza.jpg' },
+        { name: "Tokyo Manji Gang", points: 15, level: 1, colorClass: 'tokyo', logo: 'https://i.postimg.cc/ydVh6kVX/Tokyo.jpg' },
+        { name: "SOL", points: 25, level: 1, colorClass: 'sol', logo: 'https://i.postimg.cc/0N8xGpp3/SOL.jpg' },
+        { name: "Crips", points: 10, level: 1, colorClass: 'crips', logo: 'https://i.postimg.cc/wxnVWKgZ/Crips.jpg' }
     ];
 
-    // Function to calculate the total points needed for a level
     function pointsForLevel(level) {
         return levelBasePoints + (level - 1) * levelIncrease;
     }
 
-    // Function to update progress bars
     function updateProgressBars() {
         const container = document.getElementById('player-bars');
         container.innerHTML = ''; // Clear the existing content
@@ -165,22 +318,14 @@
 
             const label = document.createElement('label');
             label.className = `player-label ${player.colorClass}`;
-            
-            // Add player logo
-            const logo = document.createElement('img');
-            logo.src = player.logo;
-            logo.alt = `${player.name} logo`;
-
-            label.appendChild(logo);
-            label.append(`${player.name} - Level: ${player.level} (Points: ${player.points}/${totalPointsNeeded})`);
+            label.innerHTML = `<img src="${player.logo}" alt="${player.name} Logo"> <b><i>${player.name}</i></b> - Level: ${player.level} (Points: ${player.points}/${totalPointsNeeded})`;
 
             const progressContainer = document.createElement('div');
             progressContainer.className = 'progress-container';
 
             const progressBar = document.createElement('div');
             progressBar.className = `progress-bar ${player.colorClass}`;
-            progressBar.style.width = `${progressPercent}%`;
-            progressBar.textContent = `${Math.floor(progressPercent)}%`;
+            progressBar.setAttribute('data-tooltip', `Level ${player.level} - ${Math.floor(progressPercent)}%`);
 
             progressContainer.appendChild(progressBar);
 
@@ -188,41 +333,29 @@
             playerDiv.appendChild(label);
             playerDiv.appendChild(progressContainer);
             container.appendChild(playerDiv);
+
+            // Set initial width to 0% for animation
+            progressBar.style.width = '0%';
+
+            // Trigger width change after appending to DOM
+            setTimeout(() => {
+                progressBar.style.width = `${progressPercent}%`;
+            }, 100);
         });
     }
 
-    // Function to update player points and handle leveling up
-    function updatePlayerPoints(playerIndex, points) {
-        const player = players[playerIndex];
-        player.points += points;
-
-        // Handle negative points
-        if (player.points < 0) {
-            player.points = 0;
-        }
-
-        // Handle leveling up or down
-        while (player.points >= pointsForLevel(player.level) && player.level < maxLevel) {
-            player.points -= pointsForLevel(player.level);
-            player.level++;
-        }
-
-        while (player.points < 0 && player.level > 1) {
-            player.level--;
-            player.points += pointsForLevel(player.level);
-        }
-
-        updateProgressBars();
+    // Show/hide points table
+    function toggleTable() {
+        const table = document.getElementById('points-table');
+        table.classList.toggle('visible');
     }
 
-    // Initial rendering of progress bars
     updateProgressBars();
 
-    // Array of background images
-    const backgroundImages = [
+        // Array of background images
+        const backgroundImages = [
         'https://i.postimg.cc/4NbXJ1pb/cars.png',
-        'https://i.postimg.cc/P5XTN84G/East-Side-Ballas.png',
-        'https://i.postimg.cc/4NbXJ1pb/cars.png'
+        'https://i.postimg.cc/P5XTN84G/East-Side-Ballas.png'
     ];
 
     // Function to rotate background images every 10 seconds
