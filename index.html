@@ -245,6 +245,25 @@
                 right: 20px;
             }
         }
+        .points-table tbody {
+    background-color: #333;
+    color: #ffffff;
+    max-height: 200px; /* Set your desired max height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    display: block;
+}
+
+.points-table thead, .points-table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* Ensures proper column alignment */
+}
+
+.points-table tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #555;
+}
+
     </style>
 </head>
 <body>
