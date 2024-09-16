@@ -157,8 +157,6 @@
 
         .points-table {
             position: fixed;
-            bottom: 100px;
-            right: 20px;
             border-collapse: separate;
             border-spacing: 0;
             width: 320px;
@@ -202,6 +200,54 @@
             background-color: #444;
         }
 
+        .points-table tbody {
+            background-color: #333;
+            color: #ffffff;
+            max-height: 200px; /* Set your desired max height */
+            overflow-y: auto; /* Enable vertical scrolling */
+            display: block;
+        }
+
+        .points-table thead, .points-table tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed; /* Ensures proper column alignment */
+        }
+
+        .points-table tbody td {
+            padding: 12px;
+            border-bottom: 1px solid #555;
+        }
+
+        /* Left table aligned to bottom left */
+        #points-table-left {
+            bottom: 0; /* Bottom aligned */
+            left: 0;   /* Left side of the screen */
+            border-bottom: 5px solid #008000; /* Green bottom border */
+        }
+
+        /* Right table aligned to bottom right */
+        #points-table-right {
+            bottom: 0; /* Bottom aligned */
+            right: 0;  /* Right side of the screen */
+            border-bottom: 5px solid #ff4500; /* Orange bottom border */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .points-table {
+                width: 90%;
+            }
+
+            #points-table-left {
+                left: 5%;
+            }
+
+            #points-table-right {
+                right: 5%;
+            }
+        }
+
         .bottom-icon {
             position: fixed;
             bottom: 20px;
@@ -229,40 +275,6 @@
             background-color: rgba(255,255,255,0.8);
             transform: scale(1.1);
         }
-
-        @media (max-width: 768px) {
-            .points-table {
-                width: 90%;
-                right: 5%;
-                bottom: 90px;
-            }
-
-            .bottom-icon {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-            }
-        }
-        .points-table tbody {
-    background-color: #333;
-    color: #ffffff;
-    max-height: 200px; /* Set your desired max height */
-    overflow-y: auto; /* Enable vertical scrolling */
-    display: block;
-}
-
-.points-table thead, .points-table tbody tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed; /* Ensures proper column alignment */
-}
-
-.points-table tbody td {
-    padding: 12px;
-    border-bottom: 1px solid #555;
-}
-
     </style>
 </head>
 <body>
@@ -272,8 +284,8 @@
 <!-- Player Progress Bars -->
 <div id="player-bars"></div>
 
-<!-- Points and Reasons Table -->
-<table class="points-table" id="points-table">
+<!-- Points and Reasons Table (Left Side) -->
+<table class="points-table" id="points-table-left">
     <thead>
         <tr>
             <th>Reason</th>
@@ -313,27 +325,53 @@
             <td>Bad Behaviours Towards Civilians</td>
             <td>-10</td>
         </tr>
-        </tr>
         <tr>
             <td>Puti</td>
             <td>-10</td>
         </tr>
-    </tr>
         <tr>
             <td>Lado</td>
             <td>+10</td>
         </tr>
-
-        
     </tbody>
 </table>
 
-<!-- Bottom Icon -->
-<div class="bottom-icon" onclick="toggleTable()">
-    <img src="https://i.postimg.cc/Qxmsnr5p/menu.png" alt="Toggle Icon">
+<!-- Points and Reasons Table (Right Side) -->
+<table class="points-table" id="points-table-right">
+    <thead>
+        <tr>
+            <th>Level's</th>
+            <th>Benefits Unlock</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Level 1</td>
+            <td>Syndicate Will Give you a Tasks</td>
+        </tr>
+        <tr>
+            <td>Level 2</td>
+            <td>You can Add 2 Memeber 1 Prospect Members on your Families</td>
+        </tr>
+        <tr>
+            <td>Level 3</td>
+            <td>Soon</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Icon to Toggle Table Visibility -->
+<div class="bottom-icon" id="toggle-tables">
+    <img src="legacyrpnepal.png" alt="Toggle Tables">
 </div>
 
 <script>
+    document.getElementById('toggle-tables').addEventListener('click', function() {
+        const tables = document.querySelectorAll('.points-table');
+        tables.forEach(table => {
+            table.classList.toggle('visible');
+        });
+    });
     const levelBasePoints = 100;
     const levelIncrease = 50;
     const maxLevel = 20;
@@ -344,7 +382,7 @@
         { name: "Tokyo", points: 15, level: 1, colorClass: 'tokyo', logo: 'https://i.postimg.cc/J4XBF8WY/tokyo.png' },
         { name: "Son Of Legacy (SOL)", points: 25, level: 1, colorClass: 'sol', logo: 'https://i.postimg.cc/tJhfdpbZ/sol.png' },
         { name: "Crips", points: 10, level: 1, colorClass: 'crips', logo: 'https://i.postimg.cc/8cVXz9v1/crips.png' },
-        { name: "Unknown", points: 0, level: 1, colorClass: 'unknown', logo: 'https://i.postimg.cc/8cVXz9v1/crips.jng' }
+        { name: "Unknown", points: 0, level: 1, colorClass: 'unknown', logo: 'https://i.postimg.cc/8cVXz9v1/unknown.png' }
     ];
 
     function pointsForLevel(level) {
@@ -422,8 +460,6 @@
     // Start rotating background images
     rotateBackgroundImage();
     setInterval(rotateBackgroundImage, 10000); // Change every 10 seconds
-
 </script>
-
 </body>
 </html>
