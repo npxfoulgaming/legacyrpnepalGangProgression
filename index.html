@@ -381,57 +381,106 @@
     const maxLevel = 20;
 
     const players = [
-        { name: "Ballas (ESB)", points: 40, level: 1, colorClass: 'ballas', logo: 'https://i.postimg.cc/8zk3v20c/ballas.png' },
-        { name: "Yakuza", points: 30, level: 1, colorClass: 'yakuza', logo: 'https://i.postimg.cc/m23gMg44/yakuza.png' },
-        { name: "Tokyo", points: 15, level: 1, colorClass: 'tokyo', logo: 'https://i.postimg.cc/J4XBF8WY/tokyo.png' },
-        { name: "Son Of Legacy (SOL)", points: 25, level: 1, colorClass: 'sol', logo: 'https://i.postimg.cc/tJhfdpbZ/sol.png' },
-        { name: "Crips", points: 10, level: 1, colorClass: 'crips', logo: 'https://i.postimg.cc/8cVXz9v1/crips.png' },
-        { name: "Unknown", points: 0, level: 1, colorClass: 'unknown', logo: 'https://i.postimg.cc/xxyyxx/unknown.png' }
-    ];
+    { 
+        name: "Ballas (ESB)", 
+        points: 40, 
+        level: 1, 
+        colorClass: 'ballas', 
+        logo: 'https://i.postimg.cc/8zk3v20c/ballas.png', 
+        link: 'https://example.com/ballas'  // Unique link for Ballas
+    },
+    { 
+        name: "Yakuza", 
+        points: 30, 
+        level: 1, 
+        colorClass: 'yakuza', 
+        logo: 'https://i.postimg.cc/m23gMg44/yakuza.png', 
+        link: 'https://example.com/yakuza'  // Unique link for Yakuza
+    },
+    { 
+        name: "Tokyo", 
+        points: 15, 
+        level: 1, 
+        colorClass: 'tokyo', 
+        logo: 'https://i.postimg.cc/J4XBF8WY/tokyo.png', 
+        link: 'https://example.com/tokyo'  // Unique link for Tokyo
+    },
+    { 
+        name: "Son Of Legacy (SOL)", 
+        points: 25, 
+        level: 1, 
+        colorClass: 'sol', 
+        logo: 'https://i.postimg.cc/tJhfdpbZ/sol.png', 
+        link: 'https://example.com/sol'  // Unique link for Son of Legacy
+    },
+    { 
+        name: "Crips", 
+        points: 10, 
+        level: 1, 
+        colorClass: 'crips', 
+        logo: 'https://i.postimg.cc/8cVXz9v1/crips.png', 
+        link: 'https://example.com/crips'  // Unique link for Crips
+    },
+    { 
+        name: "Unknown", 
+        points: 0, 
+        level: 1, 
+        colorClass: 'unknown', 
+        logo: 'https://i.postimg.cc/xxyyxx/unknown.png', 
+        link: 'https://example.com/unknown'  // Unique link for Unknown
+    }
+];
 
     function pointsForLevel(level) {
         return levelBasePoints + (level - 1) * levelIncrease;
     }
 
     function updateProgressBars() {
-        const container = document.getElementById('player-bars');
-        container.innerHTML = ''; // Clear the existing content
+    const container = document.getElementById('player-bars');
+    container.innerHTML = ''; // Clear the existing content
 
-        players.forEach((player) => {
-            const totalPointsNeeded = pointsForLevel(player.level);
-            const progressPercent = (player.points / totalPointsNeeded) * 100;
+    players.forEach((player) => {
+        const totalPointsNeeded = pointsForLevel(player.level);
+        const progressPercent = (player.points / totalPointsNeeded) * 100;
 
-            // Create player progress elements
-            const playerDiv = document.createElement('div');
-            playerDiv.className = 'player';
+        // Create player progress elements
+        const playerDiv = document.createElement('div');
+        playerDiv.className = 'player';
 
-            const label = document.createElement('label');
-            label.className = `player-label ${player.colorClass}`;
-            label.innerHTML = `<img src="${player.logo}" alt="${player.name} Logo"> <b><i>${player.name}</i></b> - Level: ${player.level} (Points: ${player.points}/${totalPointsNeeded})`;
+        const label = document.createElement('label');
+        label.className = `player-label ${player.colorClass}`;
+        
+        // Use the player's unique link
+        const playerLink = player.link;  
+        
+        label.innerHTML = `<img src="${player.logo}" alt="${player.name} Logo"> 
+                           <b><i><a href="${playerLink}" style="color: inherit; text-decoration: none;" target="_blank">${player.name}</a></i></b> 
+                           - Level: ${player.level} (Points: ${player.points}/${totalPointsNeeded})`;
 
-            const progressContainer = document.createElement('div');
-            progressContainer.className = 'progress-container';
+        const progressContainer = document.createElement('div');
+        progressContainer.className = 'progress-container';
 
-            const progressBar = document.createElement('div');
-            progressBar.className = `progress-bar ${player.colorClass}`;
-            progressBar.setAttribute('data-tooltip', `Level ${player.level} - ${Math.floor(progressPercent)}%`);
+        const progressBar = document.createElement('div');
+        progressBar.className = `progress-bar ${player.colorClass}`;
+        progressBar.setAttribute('data-tooltip', `Level ${player.level} - ${Math.floor(progressPercent)}%`);
 
-            progressContainer.appendChild(progressBar);
+        progressContainer.appendChild(progressBar);
 
-            // Append elements
-            playerDiv.appendChild(label);
-            playerDiv.appendChild(progressContainer);
-            container.appendChild(playerDiv);
+        // Append elements
+        playerDiv.appendChild(label);
+        playerDiv.appendChild(progressContainer);
+        container.appendChild(playerDiv);
 
-            // Set initial width to 0% for animation
-            progressBar.style.width = '0%';
+        // Set initial width to 0% for animation
+        progressBar.style.width = '0%';
 
-            // Trigger width change after appending to DOM
-            setTimeout(() => {
-                progressBar.style.width = `${progressPercent}%`;
-            }, 100);
-        });
-    }
+        // Trigger width change after appending to DOM
+        setTimeout(() => {
+            progressBar.style.width = `${progressPercent}%`;
+        }, 100);
+    });
+}
+
 
     // Show/hide points table
     function toggleTable() {
