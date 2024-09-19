@@ -283,9 +283,36 @@ n<!DOCTYPE html>
             background-color: rgba(255,255,255,0.8);
             transform: scale(1.1);
         }
+        /* Announcement Box Styling */
+        .announcement-box {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 20px; /* A little space from the top */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px; /* Smaller width for the box */
+            background-color: #ffcc00;
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 10px; /* Rounded corners */
+            z-index: 1000;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+        }
+
+        /* Some content for the page */
+        .content {
+            margin-top: 100px; /* To push content below the announcement box */
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
+    <!-- Announcement Box -->
+    <div class="announcement-box" id="announcementBox">
+        <p id="announcementMessage">If your gang point will remains 0 or minus for 2 weeks than your gang will be disbanded.</p>
+    </div>
 
 <h1>Gangs Progression Info</h1>
 
@@ -543,6 +570,25 @@ n<!DOCTYPE html>
     // Start rotating background images
     rotateBackgroundImage();
     setInterval(rotateBackgroundImage, 10000); // Change every 10 seconds
+    // Function to update and display the announcement box
+        function showAnnouncement(message) {
+            const announcementBox = document.getElementById("announcementBox");
+            const announcementMessage = document.getElementById("announcementMessage");
+
+            // Set the new message and make the box visible
+            announcementMessage.textContent = message;
+            announcementBox.style.display = "block";
+
+            // Hide the announcement after 2 minutes (120000 milliseconds)
+            setTimeout(() => {
+                announcementBox.style.display = "none";
+            }, 60000); // 120000 ms = 2 minutes
+        }
+
+        // Example: Show the announcement when the page loads
+        window.onload = function() {
+            showAnnouncement("If your gang point will remains 0 or minus for 2 weeks than your gang will be disbanded.");
+        };
 </script>
 </body>
 </html>
