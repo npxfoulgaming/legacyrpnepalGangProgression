@@ -311,7 +311,7 @@ n<!DOCTYPE html>
 <body>
     <!-- Announcement Box -->
     <div class="announcement-box" id="announcementBox">
-        <p id="announcementMessage">If your gang point will remains 0 or minus for 2 weeks than your gang will be disbanded.</p>
+        <p id="announcementMessage"><strong>Notice:</strong>If your gang point will remains 0 or minus for 2 weeks than your gang will be disbanded.</p>
     </div>
 
 <h1>Gangs Progression Info</h1>
@@ -582,12 +582,12 @@ n<!DOCTYPE html>
             // Hide the announcement after 2 minutes (120000 milliseconds)
             setTimeout(() => {
                 announcementBox.style.display = "none";
-            }, 60000); // 120000 ms = 2 minutes
+            }, 20000); // 120000 ms = 2 minutes
         }
 
         // Example: Show the announcement when the page loads
         window.onload = function() {
-            showAnnouncement("<b>Notice:</b> If your gang point will remains 0 or minus for 2 weeks than your gang will be disbanded.");
+            showAnnouncement("<strong>Notice:</strong> If your gang point will remains 0 or minus for 2 weeks than your gang will be disbanded.");
         };
 </script>
 </body>
