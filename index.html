@@ -288,23 +288,64 @@
             display: none; /* Hidden by default */
             position: fixed;
             top: 20px; /* A little space from the top */
-            left: 80%;
-            transform: translateX(-50%);
+            right: 20px; /* Position it on the right side */
             width: 300px; /* Smaller width for the box */
-            background-color: #ff0000;
+            background-color: #ffcc00;
             color: #000;
             text-align: center;
-            padding: 10px;
+            padding: 15px;
             font-size: 16px;
             border-radius: 10px; /* Rounded corners */
             z-index: 1000;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+            font-weight: bold;
+            opacity: 0; /* Start with invisible */
+            transform: translateY(-20px); /* Start above */
+            transition: opacity 3s ease-in-out, transform 3s ease-in-out; /* Smooth transition for fade and move */
+            border: 2px solid #000000; /* Border to enhance visibility */
+            background-image: linear-gradient(to right, #ee8484, #ff0000); /* Gradient background */
         }
 
-        /* Fade in and fade out animation */
-        .announcement-box.show {
-            display: block; /* Show the box */
-            opacity: 1; /* Fully visible */
+        .announcement-box .icon {
+            font-size: 24px;
+            margin-right: 10px;
+            color: #d32f2f; /* Red color for the icon */
+        }
+
+        .announcement-box .message {
+            display: inline;
+            color: #000; /* Black color for the text */
+        }
+
+        /* Keyframes for fade-down and fade-up animations */
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        .announcement-box.fade-down {
+            animation: fadeDown 3s ease-in-out forwards; /* Apply the fade-down animation */
+        }
+
+        .announcement-box.fade-up {
+            animation: fadeUp 3s ease-in-out forwards; /* Apply the fade-up animation */
         }
 
         /* Some content for the page */
@@ -317,7 +358,8 @@
 <body>
     <!-- Announcement Box -->
     <div class="announcement-box" id="announcementBox">
-        <p id="announcementMessage">Notice: If your gang point will remains 0 or minus for 2 weeks than your gang will be disbanded.</p>
+        <span class="icon">🚨</span>
+        <span class="message"><strong>Notice:</strong> If your gang points remain 0 or negative for 2 weeks, your gang will be disbanded.</span>
     </div>
 
 <h1>Gangs Progression Info</h1>
@@ -576,25 +618,41 @@
     // Start rotating background images
     rotateBackgroundImage();
     setInterval(rotateBackgroundImage, 10000); // Change every 10 seconds
+
+
     // Function to update and display the announcement box
-        function showAnnouncement(message) {
+
+    function showAnnouncement(message) {
             const announcementBox = document.getElementById("announcementBox");
-            const announcementMessage = document.getElementById("announcementMessage");
+            const announcementMessage = document.querySelector(".announcement-box .message");
 
-            // Set the new message and make the box visible
-            announcementMessage.textContent = message;
-            announcementBox.style.display = "block";
+            // Set the new message
+            announcementMessage.innerHTML = message;
 
-            // Hide the announcement after 2 minutes (120000 milliseconds)
+            // Ensure the box is displayed before starting the animation
+            announcementBox.style.display = "block"; // Ensure the box is displayed
+            // Force reflow to restart animation
+            void announcementBox.offsetWidth;
+            announcementBox.classList.add('fade-down'); // Apply the fade-down animation
+
+            // Hide the announcement after 30 seconds (30000 milliseconds)
             setTimeout(() => {
-                announcementBox.style.display = "none";
-            }, 20000); // 120000 ms = 2 minutes
+                announcementBox.classList.remove('fade-down'); // Remove fade-down class
+                announcementBox.classList.add('fade-up'); // Apply the fade-up animation
+                
+                // After the fade-up transition ends, hide the box
+                setTimeout(() => {
+                    announcementBox.style.display = "none";
+                    announcementBox.classList.remove('fade-up'); // Clean up the class
+                }, 3000); // Match this duration with CSS transition time
+            }, 30000); // 30000 ms = 30 seconds
         }
 
         // Example: Show the announcement when the page loads
         window.onload = function() {
-            showAnnouncement("Notice: If your gang point will remains 0 or minus for 2 weeks than your gang will be disbanded.");
+            showAnnouncement("<strong>Notice:</strong> If your gang points remain 0 or negative for 2 weeks, your gang will be disbanded.");
         };
+
 </script>
 </body>
 </html>
