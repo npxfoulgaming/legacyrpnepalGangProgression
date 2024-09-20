@@ -353,9 +353,33 @@
             margin-top: 100px; /* To push content below the announcement box */
             padding: 20px;
         }
+        .button-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+    .button-link {
+      margin-right: 10px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+    .button-link:hover {
+      background-color: #0056b3;
+    }
     </style>
 </head>
 <body>
+
+    <div class="button-container">
+        <a href="https://docs.google.com/spreadsheets/d/15ZPLNszemEv9TkKLGwdz9WFrI39_Nmwd0FaWx4xBTqM/edit?usp=sharing" class="button-link">Gangs Turf Roster</a>
+        <a href="https://i.postimg.cc/DZZBnGVh/Elysian-Island.png" class="button-link">Gangs Turf Map</a>
+      </div>
+
     <!-- Announcement Box -->
     <div class="announcement-box" id="announcementBox">
         <span class="icon">🚨</span>
