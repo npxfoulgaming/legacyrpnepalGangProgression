@@ -16,7 +16,8 @@
             --color-crips: #0004ff;
             --color-tlmc: #666362;
             --color-marabunta: #94e5ff;
-            --color-mafia: #000000;
+            --color-blackmafia: #000000;
+            --color-mafia: #F07900;
 
             --gradient-ballas: linear-gradient(90deg, #8E2DE2, #4A00E0);
             --gradient-yakuza: linear-gradient(90deg, #8b8b8b, #ffffff);
@@ -25,7 +26,8 @@
             --gradient-crips: linear-gradient(90deg, #614fff, #2f00ff);
             --gradient-tlmc: linear-gradient(90deg, #666362, #3d3d3d);
             --gradient-marabunta: linear-gradient(90deg, #94e5ff, #bbefff);
-            --gradient-mafia: linear-gradient(90deg, #000000, #ffffff);
+            --gradient-blackmafia: linear-gradient(90deg, #000000, #ffffff);
+            --gradient-mafia: linear-gradient(90deg, #F07900, #000000);
             
         }
 
@@ -98,6 +100,9 @@
         .player-label.marabunta {
             color: var(--color-marabunta);
         }
+        .player-label.blackmafia {
+            color: var(--color-blackmafia);
+        }
         .player-label.mafia {
             color: var(--color-mafia);
         }
@@ -149,6 +154,9 @@
         }
         .progress-bar.marabunta {
             background: var(--gradient-marabunta);
+        }
+        .progress-bar.blackmafia {
+            background: var(--gradient-blackmafia);
         }
         .progress-bar.mafia {
             background: var(--gradient-mafia);
@@ -597,6 +605,14 @@
         logo: 'https://i.postimg.cc/VkYw39Rk/Marabunta.png', 
         link: 'https://discord.com/channels/1214842024243499078/1268531826016780369/1299291910690570241'  // Unique link for Crips
      },
+    { 
+        name: "Black Mafia", 
+        points: 0, 
+        level: 1, 
+        colorClass: 'blackmafia', 
+        logo: 'https://i.postimg.cc/hPBNDz89/bf.jpg', 
+        link: 'https://discord.com/channels/1214842024243499078/1268531826016780369/1300455602790858804'  // Unique link for Unknown
+    },
     { 
         name: "Click on Risk", 
         points: 5000, 
