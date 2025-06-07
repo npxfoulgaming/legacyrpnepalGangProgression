@@ -404,6 +404,134 @@
     .button-link:hover {
       background-color: #0056b3;
     }
+
+    /* Preloader Container */
+    #preloader {
+    	position: fixed;
+    	top: 0;
+    	left: 0;
+    	width: 100%;
+    	height: 100%;
+    	background: linear-gradient(135deg, #6e6e6e, #a9a9a9, #6e6e6e); /* Shiny gray */
+    	background-size: 400% 400%;
+    	animation: shimmerGray 6s ease infinite;
+    	display: flex;
+    	align-items: center;
+    	justify-content: center;
+    	z-index: 9999;
+    	transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    
+    #preloader.fade-out {
+    	opacity: 0;
+    	visibility: hidden;
+    }
+    
+    @keyframes shimmerGray {
+    	0% { background-position: 0% 50%; }
+    	50% { background-position: 100% 50%; }
+    	100% { background-position: 0% 50%; }
+    }
+    
+    .loader-wrapper {
+    	text-align: center;
+    	display: flex;
+    	flex-direction: column;
+    	align-items: center;
+    }
+    
+    .loader-name span {
+    	font-size: 3rem;
+    	font-weight: 900;
+    	font-family: 'Poppins', sans-serif;
+    	color: transparent;
+    	position: relative;
+    	margin: 0 3px;
+    	display: inline-block;
+    	animation: waveRotateShake 2s infinite ease-in-out;
+    	background: linear-gradient(90deg, red, rgb(255, 255, 255), blue);
+    	background-size: 300%;
+    	background-clip: text;
+    	-webkit-background-clip: text;
+    }
+    
+    .loader-name span::before {
+    	content: attr(data-text);
+    	position: absolute;
+    	top: 0;
+    	left: 0;
+    	color: #ffffff20;
+    	z-index: -1;
+    }
+    
+    /* Delay animation for wave effect */
+    .loader-name span:nth-child(1)  { animation-delay: 0s; }
+    .loader-name span:nth-child(2)  { animation-delay: 0.05s; }
+    .loader-name span:nth-child(3)  { animation-delay: 0.1s; }
+    .loader-name span:nth-child(4)  { animation-delay: 0.15s; }
+    .loader-name span:nth-child(5)  { animation-delay: 0.2s; }
+    .loader-name span:nth-child(6)  { animation-delay: 0.25s; }
+    .loader-name span:nth-child(7)  { animation-delay: 0.3s; }
+    .loader-name span:nth-child(8)  { animation-delay: 0.35s; }
+    .loader-name span:nth-child(9)  { animation-delay: 0.4s; }
+    .loader-name span:nth-child(10) { animation-delay: 0.45s; }
+    .loader-name span:nth-child(11) { animation-delay: 0.5s; }
+    .loader-name span:nth-child(12) { animation-delay: 0.55s; }
+    .loader-name span:nth-child(13) { animation-delay: 0.6s; }
+    .loader-name span:nth-child(14) { animation-delay: 0.65s; }
+    .loader-name span:nth-child(15) { animation-delay: 0.7s; }
+    .loader-name span:nth-child(16) { animation-delay: 0.75s; }
+    .loader-name span:nth-child(17) { animation-delay: 0.8s; }
+    .loader-name span:nth-child(18) { animation-delay: 0.85s; }
+    .loader-name span:nth-child(19) { animation-delay: 0.9s; }
+    .loader-name span:nth-child(20) { animation-delay: 0.95s; }
+    
+    @keyframes waveRotateShake {
+    	0%, 100% {
+    		transform: translateY(0) rotate(0deg) scale(1);
+    		opacity: 0.8;
+    	}
+    	25% {
+    		transform: translateY(-8px) rotate(-5deg) scale(1.1);
+    	}
+    	50% {
+    		transform: translateY(0px) rotate(5deg) scale(0.95);
+    	}
+    	75% {
+    		transform: translateY(5px) rotate(-2deg) scale(1.05);
+    	}
+    }
+    
+    /* Loader Description with Nepal Flag Colors */
+    .loader-description {
+    	font-family: 'Poppins', sans-serif;
+    	font-size: 1.2rem;
+    	font-weight: 600;
+    	background: linear-gradient(90deg, #DC143C, #003893, #DC143C); /* Nepal flag colors */
+    	background-size: 300% 300%;
+    	background-clip: text;
+    	-webkit-background-clip: text;
+    	color: transparent;
+    	margin-top: 20px;
+    	animation: floatGlow 4s ease-in-out infinite, nepalShift 6s ease infinite;
+    }
+    
+    /* Gradient animation for description */
+    @keyframes nepalShift {
+    	0% { background-position: 0% 50%; }
+    	50% { background-position: 100% 50%; }
+    	100% { background-position: 0% 50%; }
+    }
+    
+    /* Floating glow animation */
+    @keyframes floatGlow {
+    	0%   { transform: translateY(0px) scale(1) rotate(0deg); opacity: 0.95; }
+    	25%  { transform: translateY(-5px) scale(1.05) rotate(-2deg); opacity: 1; }
+    	50%  { transform: translateY(0px) scale(0.97) rotate(2deg); opacity: 0.9; }
+    	75%  { transform: translateY(5px) scale(1.03) rotate(-1deg); opacity: 1; }
+    	100% { transform: translateY(0px) scale(1) rotate(0deg); opacity: 0.95; }
+    }
+
     </style>
 </head>
 <body>
@@ -666,5 +794,48 @@
         };
 
 </script>
+
+<script>
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      setTimeout(() => {
+        preloader.classList.add('fade-out');
+        setTimeout(() => {
+          preloader.remove();
+        }, 800);
+      }, 1000);
+    });
+</script>
+
+
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="loader-wrapper">
+      <div class="loader-name">
+        <!-- You can adjust or shorten this to fewer letters if needed -->
+        <span data-text="L">L</span>
+        <span data-text="E">E</span>
+        <span data-text="G">G</span>
+        <span data-text="A">A</span>
+        <span data-text="C">C</span>
+        <span data-text="Y">Y</span>
+        <span data-text="R">R</span>
+        <span data-text="O">O</span>
+        <span data-text="L">L</span>
+        <span data-text="L">L</span>
+        <span data-text="E">E</span>
+        <span data-text="P">P</span>
+        <span data-text="L">L</span>
+        <span data-text="A">A</span>
+        <span data-text="Y">Y</span>
+        <span data-text="N">N</span>
+        <span data-text="E">E</span>
+        <span data-text="P">P</span>
+        <span data-text="A">A</span>
+        <span data-text="L">L</span>
+      </div>
+      <div class="loader-description">Gang Progression...</div>
+    </div>
+  </div>
 </body>
 </html>
