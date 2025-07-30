@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gangs Progression Info</title>
+    <link rel="icon" href="legacyrpnepal.png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Importing Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-ballas: #8E2DE2;
+            --color-yakuza: #ffffff;
+            --color-tokyo: #008080;
+            --color-sol: #ff0000;
+            --color-crips: #0004ff;
+            --color-tlmc: #666362;
+            --color-jholagang: #895129;
+            --color-blackmafia: #000000;
+            --color-gsf: #00ff00;
+            --color-mafia: #F07900;
+
+            --gradient-ballas: linear-gradient(90deg, #8E2DE2, #4A00E0);
+            --gradient-yakuza: linear-gradient(90deg, #8b8b8b, #ffffff);
+            --gradient-tokyo: linear-gradient(90deg, #01ffff, #008080);
+            --gradient-sol: linear-gradient(90deg, #f08d8d, #ff0000);
+            --gradient-crips: linear-gradient(90deg, #614fff, #2f00ff);
+            --gradient-tlmc: linear-gradient(90deg, #666362, #3d3d3d);
+            --gradient-jholagang: linear-gradient(90deg, #895129, #bbefff);
+            --gradient-blackmafia: linear-gradient(90deg, #000000, #ffffff);
+            --gradient-gsf: linear-gradient(90deg, #00ff00, #076807);
+            --gradient-mafia: linear-gradient(90deg, #F07900, #000000);
+            
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-image 1s ease-in-out;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 3rem;
+            color: #fff;
+            font-family: 'Lobster', cursive;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        .player {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .player-label {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            transition: color 0.3s ease;
+        }
+
+        .player-label img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .player-label.ballas {
+            color: var(--color-ballas);
+        }
+
+        .player-label.yakuza {
+            color: var(--color-yakuza);
+        }
+
+        .player-label.tokyo {
+            color: var(--color-tokyo);
+        }
+
+        .player-label.sol {
+            color: var(--color-sol);
+        }
+
+        .player-label.crips {
+            color: var(--color-crips);
+        }
+        .player-label.tlmc {
+            color: var(--color-tlmc);
+        }
+        .player-label.jholagang {
+            color: var(--color-jholagang);
+        }
+        .player-label.blackmafia {
+            color: var(--color-blackmafia);
+        }
+        .player-label.gsf {
+            color: var(--color-gsf);
+        }
+        .player-label.mafia {
+            color: var(--color-mafia);
+        }
+
+        .progress-container {
+            width: 80%;
+            margin: 10px auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 5px;
+        }
+
+        .progress-bar {
+            height: 40px;
+            width: 0%;
+            border-radius: 30px;
+            text-align: center;
+            line-height: 40px;
+            color: #ffffff;
+            font-weight: bold;
+            transition: width 1s ease-in-out, background 0.5s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar.ballas {
+            background: var(--gradient-ballas);
+        }
+
+        .progress-bar.yakuza {
+            background: var(--gradient-yakuza);
+        }
+
+        .progress-bar.tokyo {
+            background: var(--gradient-tokyo);
+        }
+
+        .progress-bar.sol {
+            background: var(--gradient-sol);
+        }
+
+        .progress-bar.crips {
+            background: var(--gradient-crips);
+        }
+        .progress-bar.tlmc {
+            background: var(--gradient-tlmc);
+        }
+        .progress-bar.jholagang {
+            background: var(--gradient-jholagang);
+        }
+        .progress-bar.blackmafia {
+            background: var(--gradient-blackmafia);
+        }
+        .progress-bar.gsf {
+            background: var(--gradient-gsf);
+        }
+        .progress-bar.mafia {
+            background: var(--gradient-mafia);
+        }
+
+        .progress-bar::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .progress-bar:hover::after {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .progress-container {
+                width: 90%;
+            }
+        }
+
+        .points-table {
+            position: fixed;
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 320px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            transform: translateY(100%);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .points-table.visible {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .points-table thead th {
+            background-color: #444;
+            color: #ffffff;
+            padding: 12px;
+            font-weight: 700;
+            text-align: left;
+            border-bottom: 2px solid #555;
+        }
+
+        .points-table tbody td {
+            background-color: #333;
+            color: #ffffff;
+            padding: 12px;
+            border-bottom: 1px solid #555;
+        }
+
+        .points-table tbody tr:nth-child(even) {
+            background-color: #2a2a2a;
+        }
+
+        .points-table tbody tr:hover {
+            background-color: #444;
+        }
+
+        .points-table tbody {
+            background-color: #333;
+            color: #ffffff;
+            max-height: 200px; /* Set your desired max height */
+            overflow-y: auto; /* Enable vertical scrolling */
+            display: block;
+        }
+
+        .points-table thead, .points-table tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed; /* Ensures proper column alignment */
+        }
+
+        .points-table tbody td {
+            padding: 12px;
+            border-bottom: 1px solid #555;
+        }
+
+        /* Left table aligned to bottom left */
+        #points-table-left {
+            bottom: 0; /* Bottom aligned */
+            left: 0;   /* Left side of the screen */
+            border-bottom: 5px solid #008000; /* Green bottom border */
+        }
+
+        /* Right table aligned to bottom right */
+        #points-table-right {
+            bottom: 0; /* Bottom aligned */
+            right: 0;  /* Right side of the screen */
+            border-bottom: 5px solid #ff4500; /* Orange bottom border */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .points-table {
+                width: 90%;
+            }
+
+            #points-table-left {
+                left: 5%;
+            }
+
+            #points-table-right {
+                right: 5%;
+            }
+        }
+
+        .bottom-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0,123,255,0.8);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .bottom-icon img {
+            width: 30px;
+            height: 30px;
+            filter: invert(1);
+        }
+
+        .bottom-icon:hover {
+            background-color: rgba(255,255,255,0.8);
+            transform: scale(1.1);
+        }
+        /* Announcement Box Styling */
+        .announcement-box {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 20px; /* A little space from the top */
+            right: 20px; /* Position it on the right side */
+            width: 300px; /* Smaller width for the box */
+            background-color: #ffcc00;
+            color: #000;
+            text-align: center;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 10px; /* Rounded corners */
+            z-index: 1000;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+            font-weight: bold;
+            opacity: 0; /* Start with invisible */
+            transform: translateY(-20px); /* Start above */
+            transition: opacity 3s ease-in-out, transform 3s ease-in-out; /* Smooth transition for fade and move */
+            border: 2px solid #000000; /* Border to enhance visibility */
+            background-image: linear-gradient(to right, #ee8484, #ff0000); /* Gradient background */
+        }
+
+        .announcement-box .icon {
+            font-size: 24px;
+            margin-right: 10px;
+            color: #d32f2f; /* Red color for the icon */
+        }
+
+        .announcement-box .message {
+            display: inline;
+            color: #000; /* Black color for the text */
+        }
+
+        /* Keyframes for fade-down and fade-up animations */
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        .announcement-box.fade-down {
+            animation: fadeDown 3s ease-in-out forwards; /* Apply the fade-down animation */
+        }
+
+        .announcement-box.fade-up {
+            animation: fadeUp 3s ease-in-out forwards; /* Apply the fade-up animation */
+        }
+
+        /* Some content for the page */
+        .content {
+            margin-top: 100px; /* To push content below the announcement box */
+            padding: 20px;
+        }
+        .button-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+    .button-link {
+      margin-right: 10px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+    .button-link:hover {
+      background-color: #0056b3;
+    }
+
+/* {
+  border: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #252432;
+  display: flex;
+  font-size: calc(16px + (20 - 16) * (100vw - 320px) / (1280 - 320));
+  height: 100vh;
+  line-height: 1.5;
+}*/
+
+.cat {
+  margin: auto;
+  position: relative;
+  width: 16em;
+  height: 16em;
+}
+.cat__segment {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3em;
+  height: 2em;
+  transform: translate(-50%, -50%);
+}
+.cat__segment:before {
+  animation: loop 2s cubic-bezier(0.6, 0, 0.4, 1) infinite running;
+  background: linear-gradient(90deg, white 20%, #e6e6e6 20% 80%, white 80%);
+  border-radius: 0.25em;
+  content: "";
+  display: block;
+  will-change: transform;
+  width: 100%;
+  height: 100%;
+}
+.cat__segment:first-of-type {
+  width: 4em;
+  height: 4em;
+  z-index: 1;
+}
+.cat__segment:first-of-type:before {
+  background: radial-gradient(0.25em 0.25em at 1.25em 1.6em, white 48%, rgba(255, 255, 255, 0) 50%), radial-gradient(0.75em 0.75em at 1.25em 1.75em, #1a1a1a 48%, rgba(26, 26, 26, 0) 50%), radial-gradient(0.25em 0.25em at 2.75em 1.6em, white 48%, rgba(255, 255, 255, 0) 50%), radial-gradient(0.75em 0.75em at 2.75em 1.75em, #1a1a1a 48%, rgba(26, 26, 26, 0) 50%), radial-gradient(0.9em 0.8em at 1.5em 2.65em, white 48%, rgba(255, 255, 255, 0) 50%), radial-gradient(0.9em 0.8em at 2.5em 2.65em, white 48%, rgba(255, 255, 255, 0) 50%), radial-gradient(1em 0.8em at 1.6em 2.75em, #cccccc 48%, rgba(204, 204, 204, 0) 50%), radial-gradient(1em 0.8em at 2.4em 2.75em, #cccccc 48%, rgba(204, 204, 204, 0) 50%), radial-gradient(0.75em 0.75em at 50% 2.5em, #e69999 48%, rgba(230, 153, 153, 0) 50%), radial-gradient(4em 3em at 50% 2em, white 48%, rgba(255, 255, 255, 0) 50%), radial-gradient(4em 3em at 50% 2.2em, #cccccc 48%, rgba(204, 204, 204, 0) 50%), radial-gradient(1em 3em at 0.75em 1.5em, #e69999 39%, white 40% 49%, rgba(255, 255, 255, 0) 50%), radial-gradient(1em 3em at 3.25em 1.5em, #e69999 39%, white 40% 49%, rgba(255, 255, 255, 0) 50%), radial-gradient(1em 2em at 0.5em 2.8em, white 48%, rgba(255, 255, 255, 0) 50%), radial-gradient(1em 2em at 0.5em 3em, #cccccc 48%, rgba(204, 204, 204, 0) 50%), radial-gradient(1em 2em at 3.5em 2.8em, white 48%, rgba(255, 255, 255, 0) 50%), radial-gradient(1em 2em at 3.5em 3em, #cccccc 48%, rgba(204, 204, 204, 0) 50%);
+  background-repeat: no-repeat;
+}
+.cat__segment:last-of-type {
+  width: 3em;
+  height: 4em;
+}
+.cat__segment:last-of-type:before {
+  background: linear-gradient(90deg, white 20%, #e6e6e6 20% 80%, white 80%) 0 1.5em/3em 0.5em, radial-gradient(3em 2em at top center, #e6e6e6 30%, white 31% 48%, rgba(255, 255, 255, 0) 50%) 0 2em/3em 2em, radial-gradient(1em 4em at 0.5em 0, white 48%, rgba(255, 255, 255, 0) 50%) 0 2em/3em 2em, radial-gradient(1em 4em at 2.5em 0, white 48%, rgba(255, 255, 255, 0) 50%) 0 2em/3em 2em;
+  background-repeat: no-repeat;
+}
+.cat__segment:nth-of-type(1) {
+  transform: translate(-50%, -50%) rotate(-20deg);
+}
+.cat__segment:nth-of-type(1):before {
+  animation-delay: 0s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(2) {
+  transform: translate(-50%, -50%) rotate(-18.6666666667deg);
+}
+.cat__segment:nth-of-type(2):before {
+  animation-delay: 0.02s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(3) {
+  transform: translate(-50%, -50%) rotate(-17.3333333333deg);
+}
+.cat__segment:nth-of-type(3):before {
+  animation-delay: 0.04s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(4) {
+  transform: translate(-50%, -50%) rotate(-16deg);
+}
+.cat__segment:nth-of-type(4):before {
+  animation-delay: 0.06s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(5) {
+  transform: translate(-50%, -50%) rotate(-14.6666666667deg);
+}
+.cat__segment:nth-of-type(5):before {
+  animation-delay: 0.08s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(6) {
+  transform: translate(-50%, -50%) rotate(-13.3333333333deg);
+}
+.cat__segment:nth-of-type(6):before {
+  animation-delay: 0.1s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(7) {
+  transform: translate(-50%, -50%) rotate(-12deg);
+}
+.cat__segment:nth-of-type(7):before {
+  animation-delay: 0.12s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(8) {
+  transform: translate(-50%, -50%) rotate(-10.6666666667deg);
+}
+.cat__segment:nth-of-type(8):before {
+  animation-delay: 0.14s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(9) {
+  transform: translate(-50%, -50%) rotate(-9.3333333333deg);
+}
+.cat__segment:nth-of-type(9):before {
+  animation-delay: 0.16s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(10) {
+  transform: translate(-50%, -50%) rotate(-8deg);
+}
+.cat__segment:nth-of-type(10):before {
+  animation-delay: 0.18s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(11) {
+  transform: translate(-50%, -50%) rotate(-6.6666666667deg);
+}
+.cat__segment:nth-of-type(11):before {
+  animation-delay: 0.2s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(12) {
+  transform: translate(-50%, -50%) rotate(-5.3333333333deg);
+}
+.cat__segment:nth-of-type(12):before {
+  animation-delay: 0.22s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(13) {
+  transform: translate(-50%, -50%) rotate(-4deg);
+}
+.cat__segment:nth-of-type(13):before {
+  animation-delay: 0.24s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(14) {
+  transform: translate(-50%, -50%) rotate(-2.6666666667deg);
+}
+.cat__segment:nth-of-type(14):before {
+  animation-delay: 0.26s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(15) {
+  transform: translate(-50%, -50%) rotate(-1.3333333333deg);
+}
+.cat__segment:nth-of-type(15):before {
+  animation-delay: 0.28s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(16) {
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+.cat__segment:nth-of-type(16):before {
+  animation-delay: 0.3s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(17) {
+  transform: translate(-50%, -50%) rotate(1.3333333333deg);
+}
+.cat__segment:nth-of-type(17):before {
+  animation-delay: 0.32s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(18) {
+  transform: translate(-50%, -50%) rotate(2.6666666667deg);
+}
+.cat__segment:nth-of-type(18):before {
+  animation-delay: 0.34s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(19) {
+  transform: translate(-50%, -50%) rotate(4deg);
+}
+.cat__segment:nth-of-type(19):before {
+  animation-delay: 0.36s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(20) {
+  transform: translate(-50%, -50%) rotate(5.3333333333deg);
+}
+.cat__segment:nth-of-type(20):before {
+  animation-delay: 0.38s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(21) {
+  transform: translate(-50%, -50%) rotate(6.6666666667deg);
+}
+.cat__segment:nth-of-type(21):before {
+  animation-delay: 0.4s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(22) {
+  transform: translate(-50%, -50%) rotate(8deg);
+}
+.cat__segment:nth-of-type(22):before {
+  animation-delay: 0.42s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(23) {
+  transform: translate(-50%, -50%) rotate(9.3333333333deg);
+}
+.cat__segment:nth-of-type(23):before {
+  animation-delay: 0.44s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(24) {
+  transform: translate(-50%, -50%) rotate(10.6666666667deg);
+}
+.cat__segment:nth-of-type(24):before {
+  animation-delay: 0.46s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(25) {
+  transform: translate(-50%, -50%) rotate(12deg);
+}
+.cat__segment:nth-of-type(25):before {
+  animation-delay: 0.48s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(26) {
+  transform: translate(-50%, -50%) rotate(13.3333333333deg);
+}
+.cat__segment:nth-of-type(26):before {
+  animation-delay: 0.5s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(27) {
+  transform: translate(-50%, -50%) rotate(14.6666666667deg);
+}
+.cat__segment:nth-of-type(27):before {
+  animation-delay: 0.52s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(28) {
+  transform: translate(-50%, -50%) rotate(16deg);
+}
+.cat__segment:nth-of-type(28):before {
+  animation-delay: 0.54s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(29) {
+  transform: translate(-50%, -50%) rotate(17.3333333333deg);
+}
+.cat__segment:nth-of-type(29):before {
+  animation-delay: 0.56s;
+  transform: translateX(6em);
+}
+.cat__segment:nth-of-type(30) {
+  transform: translate(-50%, -50%) rotate(18.6666666667deg);
+}
+.cat__segment:nth-of-type(30):before {
+  animation-delay: 0.58s;
+  transform: translateX(6em);
+}
+
+@keyframes loop {
+  from {
+    transform: rotate(0) translateX(6em);
+  }
+  to {
+    transform: rotate(-1turn) translateX(6em);
+  }
+}
+    </style>
+</head>
+<body>
+
+    <div class="button-container">
+        <a href="https://docs.google.com/spreadsheets/d/15ZPLNszemEv9TkKLGwdz9WFrI39_Nmwd0FaWx4xBTqM/edit?usp=sharing" class="button-link">Gangs Turf List</a>
+        <a href="https://npxfoulgaming.github.io/legacyrpnepalGangMap/" class="button-link">Gangs Turf Map</a>
+      </div>
+
+    <!-- Announcement Box -->
+    <div class="announcement-box" id="announcementBox">
+        <span class="icon">🚨</span>
+        <span class="message"><strong>Notice:</strong> If your gang points remain 0 or negative for 2 weeks, your gang will be disbanded.</span>
+    </div>
+
+<h1>Gangs Progression Info</h1>
+
+<!-- Player Progress Bars -->
+<div id="player-bars"></div>
+
+<!-- Points and Reasons Table (Left Side) -->
+<table class="points-table" id="points-table-left">
+    </tbody>
+        <tr>
+            <th>Level's</th>
+            <th>Benefit's Unlock</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Coming Soon</td>
+            <td>Coming Soon</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Points and Reasons Table (Right Side) -->
+<table class="points-table" id="points-table-right">
+    <thead>
+        <thead>
+        <tr>
+            <th>Reason</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Coming Soon</td>
+            <td>Coming Soon</td>
+        </tr>
+</table>
+
+<!-- Icon to Toggle Table Visibility -->
+<div class="bottom-icon" id="toggle-tables">
+    <img src="https://i.postimg.cc/Qxmsnr5p/menu.png" alt="Toggle Tables">
+</div>
+
+<script>
+    document.getElementById('toggle-tables').addEventListener('click', function() {
+        const tables = document.querySelectorAll('.points-table');
+        tables.forEach(table => {
+            table.classList.toggle('visible');
+        });
+    });
+    const levelBasePoints = 100;
+    const levelIncrease = 50;
+    const maxLevel = 20;
+
+    const players = [
+    { 
+        name: "Yakuza", 
+        points: 0, 
+        level: 0, 
+        colorClass: 'yakuza', 
+        logo: 'https://i.postimg.cc/KYpgK8zt/yakuza.png', 
+        link: 'https://discord.com/channels/1214842024243499078/1268531826016780369/1279029407444373504'  // Unique link for Yakuza
+    },
+    { 
+        name: "Jhola Gang", 
+        points: 0, 
+        level: 0, 
+        colorClass: 'jholagang', 
+        logo: 'https://i.postimg.cc/xjFZCp7S/image.png', 
+        link: 'https://discord.com/channels/1214842024243499078/1268531826016780369/1360346793505718273'  // Unique link for Crips
+     },
+    { 
+        name: "Ballas (ESB)", 
+        points: 0, 
+        level: 0, 
+        colorClass: 'ballas', 
+        logo: 'https://i.postimg.cc/8zk3v20c/ballas.png', 
+        link: 'https://discord.com/channels/1214842024243499078/1268531826016780369/1360333304154292266'  // Unique link for Ballas
+    },  
+    { 
+        name: "Son Of Legacy (SOL)", 
+        points: 0, 
+        level: 0, 
+        colorClass: 'sol', 
+        logo: 'https://i.postimg.cc/tJhfdpbZ/sol.png', 
+        link: 'https://discord.com/channels/1214842024243499078/1268531826016780369/1369992652182917150'  // Unique link for Son of Legacy
+    },
+    { 
+        name: "Black Mafia", 
+        points: 0, 
+        level: 1, 
+        colorClass: 'blackmafia', 
+        logo: 'https://i.postimg.cc/tJw5h6F6/image.png', 
+        link: 'https://discord.com/channels/1214842024243499078/1268531826016780369/1300455602790858804'  // Unique link for Unknown
+    },
+/*
+    { 
+        name: "Grove Street Families (GSF)", 
+        points: 0, 
+        level: 1, 
+        colorClass: 'gsf', 
+        logo: 'https://i.postimg.cc/prYGhCQK/gsf.png', 
+        link: 'https://discord.com/channels/1214842024243499078/1268531826016780369/1310943065082695681'  // Unique link for Crips
+    },
+*/
+    /*{ 
+        name: "Crips", 
+        points: 120, 
+        level: 2, 
+        colorClass: 'crips', 
+        logo: 'https://i.postimg.cc/8cVXz9v1/crips.png', 
+        link: 'https://discord.com/channels/1214842024243499078/1268531826016780369/1281971790603616267'  // Unique link for Crips
+    },*/
+    /*{ 
+        name: "Tokyo", 
+        points: 0, 
+        level: 1, 
+        colorClass: 'tokyo', 
+        logo: 'https://i.postimg.cc/J4XBF8WY/tokyo.png', 
+        link: 'https://discord.com/channels/1214842024243499078/1268531826016780369/1279030389217820683'  // Unique link for Tokyo
+    },*/
+    /*{ 
+        name: "Black Mafia", 
+        points: 0, 
+        level: 0, 
+        colorClass: 'blackmafia', 
+        logo: 'https://i.postimg.cc/LsB1vCZV/image.png', 
+        link: 'https://discord.com/channels/1214842024243499078/1268531826016780369/1360333548820889681'  // Unique link for Crips
+    },  */
+    { 
+        name: "Click on Risk", 
+        points: 5000, 
+        level: 99, 
+        colorClass: 'mafia', 
+        logo: 'https://i.postimg.cc/Qdnffss/xx.png', 
+        link: 'https://www.pornhub.com/'  // Unique link for Unknown
+    }
+];
+
+    function pointsForLevel(level) {
+        return levelBasePoints + (level - 1) * levelIncrease;
+    }
+
+    function updateProgressBars() {
+    const container = document.getElementById('player-bars');
+    container.innerHTML = ''; // Clear the existing content
+
+    players.forEach((player) => {
+        const totalPointsNeeded = pointsForLevel(player.level);
+        const progressPercent = (player.points / totalPointsNeeded) * 100;
+
+        // Create player progress elements
+        const playerDiv = document.createElement('div');
+        playerDiv.className = 'player';
+
+        const label = document.createElement('label');
+        label.className = `player-label ${player.colorClass}`;
+        
+        // Use the player's unique link
+        const playerLink = player.link;  
+        
+        label.innerHTML = `<img src="${player.logo}" alt="${player.name} Logo"> 
+                           <b><i><a href="${playerLink}" style="color: inherit; text-decoration: none;" target="_blank">${player.name}</a></i></b> 
+                           - Level: ${player.level} (Points: ${player.points}/${totalPointsNeeded})`;
+
+        const progressContainer = document.createElement('div');
+        progressContainer.className = 'progress-container';
+
+        const progressBar = document.createElement('div');
+        progressBar.className = `progress-bar ${player.colorClass}`;
+        progressBar.setAttribute('data-tooltip', `Level ${player.level} - ${Math.floor(progressPercent)}%`);
+
+        progressContainer.appendChild(progressBar);
+
+        // Append elements
+        playerDiv.appendChild(label);
+        playerDiv.appendChild(progressContainer);
+        container.appendChild(playerDiv);
+
+        // Set initial width to 0% for animation
+        progressBar.style.width = '0%';
+
+        // Trigger width change after appending to DOM
+        setTimeout(() => {
+            progressBar.style.width = `${progressPercent}%`;
+        }, 100);
+    });
+}
+
+
+    // Show/hide points table
+    function toggleTable() {
+        const table = document.getElementById('points-table');
+        table.classList.toggle('visible');
+    }
+
+    updateProgressBars();
+
+        // Array of background images
+        const backgroundImages = [
+        'https://i.ibb.co/Hp31Tzzj/Henry-Marley.png'
+    ];
+
+    // Function to rotate background images every 10 seconds
+    let currentImageIndex = 0;
+    function rotateBackgroundImage() {
+        document.body.style.backgroundImage = `url(${backgroundImages[currentImageIndex]})`;
+        currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
+    }
+
+    // Start rotating background images
+    rotateBackgroundImage();
+    setInterval(rotateBackgroundImage, 10000); // Change every 10 seconds
+
+
+    // Function to update and display the announcement box
+
+    function showAnnouncement(message) {
+            const announcementBox = document.getElementById("announcementBox");
+            const announcementMessage = document.querySelector(".announcement-box .message");
+
+            // Set the new message
+            announcementMessage.innerHTML = message;
+
+            // Ensure the box is displayed before starting the animation
+            announcementBox.style.display = "block"; // Ensure the box is displayed
+            // Force reflow to restart animation
+            void announcementBox.offsetWidth;
+            announcementBox.classList.add('fade-down'); // Apply the fade-down animation
+
+            // Hide the announcement after 30 seconds (30000 milliseconds)
+            setTimeout(() => {
+                announcementBox.classList.remove('fade-down'); // Remove fade-down class
+                announcementBox.classList.add('fade-up'); // Apply the fade-up animation
+                
+                // After the fade-up transition ends, hide the box
+                setTimeout(() => {
+                    announcementBox.style.display = "none";
+                    announcementBox.classList.remove('fade-up'); // Clean up the class
+                }, 3000); // Match this duration with CSS transition time
+            }, 30000); // 30000 ms = 30 seconds
+        }
+
+        // Example: Show the announcement when the page loads
+        window.onload = function() {
+            showAnnouncement("<strong>Notice:</strong> In Roleplay just Go With Flow xD");
+        };
+
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      setTimeout(() => {
+        preloader.classList.add('fade-out');
+        setTimeout(() => {
+          preloader.remove();
+        }, 800);
+      }, 1000);
+    });
+</script>
+
+<div class="cat">
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+  <div class="cat__segment"></div>
+</div>
+  
+</body>
+</html>
